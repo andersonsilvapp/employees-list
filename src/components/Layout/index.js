@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { formatDate, formatPhone } from '../../utils/formatData';
 
 import ContentTable from '../ContentTable';
 import SearchBar from '../SearchBar';
@@ -14,13 +15,20 @@ function Layout() {
       .then((data) => setEmployess(data));
   }, []);
 
+  const formattedData = employees.map((employee) => ({
+    ...employee,
+    formattedDate: formatDate(employee.admission_date),
+    formattedPhone: formatPhone(employee.phone),
+  }));
+
   return (
     <Container>
       <div>
         <h1>Funcionários</h1>
         <SearchBar />
       </div>
-      <ContentTable />
+
+      <ContentTable employees={formattedData} />
     </Container>
   );
 }

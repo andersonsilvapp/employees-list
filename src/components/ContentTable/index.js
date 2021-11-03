@@ -2,7 +2,7 @@ import React from 'react';
 
 import Table from './styles';
 
-function ContentTable() {
+function ContentTable({ employees }) {
   return (
     <Table>
       <thead>
@@ -15,13 +15,16 @@ function ContentTable() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><img src="/img" alt="img" /></td>
-          <td>Juliana Almeida</td>
-          <td>Designer</td>
-          <td>15/12/2019</td>
-          <td>+55 (12) 99999-9999</td>
-        </tr>
+        {employees.map((employee) => (
+          <tr key={employee.id}>
+            <td><img src={employee.image} alt={`foto de ${employee.name}`} /></td>
+            <td>{employee.name}</td>
+            <td>{employee.job}</td>
+            <td>{employee.formattedDate}</td>
+            <td>{employee.formattedPhone}</td>
+          </tr>
+
+        ))}
       </tbody>
     </Table>
   );
