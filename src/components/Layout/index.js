@@ -8,12 +8,23 @@ import Container from './styles';
 
 function Layout() {
   const [employees, setEmployess] = useState([]);
+  const [search, setSearch] = useState('');
+
+  const hadleSearch = (searchTerm) => {
+    setSearch(searchTerm);
+  };
 
   useEffect(() => {
-    fetch('http://localhost:5000/employees')
-      .then((response) => response.json())
-      .then((data) => setEmployess(data));
-  }, []);
+    if (search) {
+      fetch(`http://localhost:5000/employees?q=${search}`)
+        .then((response) => response.json())
+        .then((data) => setEmployess(data));
+    } else {
+      fetch('http://localhost:5000/employees')
+        .then((response) => response.json())
+        .then((data) => setEmployess(data));
+    }
+  }, [search]);
 
   const formattedData = employees.map((employee) => ({
     ...employee,
@@ -25,7 +36,7 @@ function Layout() {
     <Container>
       <div>
         <h1>Funcionários</h1>
-        <SearchBar />
+        <SearchBar onSearch={hadleSearch} />
       </div>
 
       <ContentTable employees={formattedData} />
